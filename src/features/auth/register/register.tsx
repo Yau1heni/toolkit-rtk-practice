@@ -9,7 +9,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { authThunks } from "features/auth/auth-slice";
 import { Link } from "react-router-dom";
 import s from "./register.module.css";
-import { routes } from "common/consts/routes";
+import { routes } from "common/constans/routes";
 
 type FormData = {
   email: string;
@@ -25,8 +25,6 @@ export const Register = () => {
     register,
     formState: { errors, isDirty, isValid },
   } = useForm<FormData>({ mode: "onTouched", resolver: yupResolver(registrationSchema) });
-
-  console.log(errors);
 
   const onFormSubmit: SubmitHandler<FormData> = (data) => {
     const { email, password } = data;
@@ -60,7 +58,7 @@ export const Register = () => {
       <div className={s.linkContainer}>
         <p>Already have an account?</p>
         <Link to={routes.LOGIN} className={s.link}>
-          Login
+          Sign in
         </Link>
       </div>
     </Form>

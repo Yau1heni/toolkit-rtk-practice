@@ -1,0 +1,13 @@
+.linkForgotContainer {
+    text-align: end;
+}
+
+.linkContainer {
+    margin: 0 auto;
+    text-align: center;
+}
+
+.link {
+    text-decoration: none;
+    color: blue;
+}
