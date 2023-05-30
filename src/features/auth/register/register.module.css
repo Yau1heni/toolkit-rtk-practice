@@ -1,5 +1,9 @@
-.container {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.linkContainer {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.link {
+  text-decoration: none;
+  color: blue;
 }
