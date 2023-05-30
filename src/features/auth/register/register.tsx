@@ -1,8 +1,5 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useAppDispatch } from "app/hooks/store-hooks";
-import { InputPassword } from "features/auth/components/input-password/input-password";
-import { InputText } from "features/auth/components/input-text/input-text";
-import { Button } from "@mui/material";
 import { Form } from "common/components/form/form";
 import { registrationSchema } from "features/auth/utils/shemes";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -10,6 +7,7 @@ import { authThunks } from "features/auth/auth-slice";
 import { Link } from "react-router-dom";
 import s from "./register.module.css";
 import { routes } from "common/constans/routes";
+import { Button, PasswordInput, TextInput } from "@mantine/core";
 
 type FormData = {
   email: string;
@@ -33,26 +31,27 @@ export const Register = () => {
 
   return (
     <Form title={"Registration"} onSubmit={handleSubmit(onFormSubmit)}>
-      <InputText
-        fieldName="Email"
+      <TextInput
         {...register("email")}
+        placeholder="Your email"
+        label="Your email"
         autoComplete="off"
         error={errors.email?.message ? errors.email.message : ""}
       />
 
-      <InputPassword
-        fieldName="Password"
+      <PasswordInput
         {...register("password")}
-        autoComplete="off"
+        placeholder="Password"
+        label="Password"
         error={errors.password?.message ? errors.password.message : ""}
       />
-      <InputPassword
-        fieldName="Confirm password"
+      <PasswordInput
         {...register("confirmPassword")}
-        autoComplete="off"
+        placeholder="Confirm password"
+        label="Confirm password"
         error={errors.confirmPassword?.message ? errors.confirmPassword.message : ""}
       />
-      <Button type="submit" variant={"contained"} disabled={!isValid && !isDirty}>
+      <Button type="submit" variant={"filled"} disabled={!isValid && !isDirty}>
         Sign in
       </Button>
       <div className={s.linkContainer}>

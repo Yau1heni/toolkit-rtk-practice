@@ -8,6 +8,7 @@ import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Register } from "features/auth/register/register";
 import { Login } from "features/auth/login/login";
+import { MantineProvider } from "@mantine/core";
 
 export const routes = createBrowserRouter([
   {
@@ -30,7 +31,9 @@ const root = createRoot(container);
 root.render(
   <Provider store={store}>
     <RouterProvider router={routes} />
-    <App />
+    <MantineProvider withGlobalStyles withNormalizeCSS>
+      <App />
+    </MantineProvider>
   </Provider>
 );
 

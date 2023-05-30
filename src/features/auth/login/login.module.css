@@ -1,13 +1,16 @@
-.linkForgotContainer {
-    text-align: end;
+.checkboxContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
 }
 
 .linkContainer {
-    margin: 0 auto;
-    text-align: center;
+  margin: 0 auto;
+  text-align: center;
 }
 
 .link {
-    text-decoration: none;
-    color: blue;
+  text-decoration: none;
+  color: blue;
+  vertical-align: middle;
 }
