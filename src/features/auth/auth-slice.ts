@@ -7,6 +7,7 @@ import {
 } from "features/auth/auth-api";
 import { StatusType } from "common/types/types";
 import { createAppAsyncThunk } from "common/utils/pre-typed/createAppAsyncThunk";
+import { thunkTryCatch } from "common/utils/thunk-try-catch/thunk-try-catch";
 
 type InitialStateType = {
   profile: null | ResponseLoginType;
@@ -39,16 +40,20 @@ const slice = createSlice({
 
 const register = createAppAsyncThunk<void, RegisterPayloadType>(
   "auth/register",
-  async (payload) => {
-    await authAPI.register(payload);
+  async (payload, thunkAPI) => {
+    return thunkTryCatch(thunkAPI, async () => {
+      await authAPI.register(payload);
+    });
   }
 );
 
 const login = createAppAsyncThunk<{ profile: ResponseLoginType }, LoginPayloadType>(
   "auth/login",
-  async (payload) => {
-    const res = await authAPI.login(payload);
-    return { profile: res.data };
+  async (payload, thunkAPI) => {
+    return thunkTryCatch(thunkAPI, async () => {
+      const res = await authAPI.login(payload);
+      return { profile: res.data };
+    });
   }
 );
 

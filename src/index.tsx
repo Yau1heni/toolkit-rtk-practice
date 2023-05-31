@@ -9,6 +9,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Register } from "features/auth/register/register";
 import { Login } from "features/auth/login/login";
 import { MantineProvider } from "@mantine/core";
+import "react-toastify/dist/ReactToastify.css";
+import { GlobalError } from "common/components/global-error/global-error";
 
 export const routes = createBrowserRouter([
   {
@@ -34,6 +36,7 @@ root.render(
     <MantineProvider withGlobalStyles withNormalizeCSS>
       <App />
     </MantineProvider>
+    <GlobalError />
   </Provider>
 );
 
