@@ -24,17 +24,9 @@ const slice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder
-      .addCase(login.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(login.fulfilled, (state, action) => {
-        state.profile = action.payload.profile;
-        state.status = "idle";
-      })
-      .addCase(login.rejected, (state) => {
-        state.status = "failed";
-      });
+    builder.addCase(login.pending, (state) => {
+      state.status = "loading";
+    });
   },
 });
 
