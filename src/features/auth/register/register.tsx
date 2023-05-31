@@ -1,5 +1,4 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useAppDispatch } from "app/hooks/store-hooks";
 import { Form } from "common/components/form/form";
 import { registrationSchema } from "features/auth/utils/shemes";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -8,6 +7,7 @@ import { Link } from "react-router-dom";
 import s from "./register.module.css";
 import { routes } from "common/constans/routes";
 import { Button, PasswordInput, TextInput } from "@mantine/core";
+import { useAppDispatch } from "common/hooks";
 
 type FormData = {
   email: string;

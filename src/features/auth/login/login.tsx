@@ -1,4 +1,3 @@
-import { useAppDispatch } from "app/hooks/store-hooks";
 import s from "./login.module.css";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "features/auth/utils/shemes";
@@ -9,6 +8,7 @@ import { Link } from "react-router-dom";
 import { authThunks } from "features/auth/auth-slice";
 import { useState } from "react";
 import { Button, Checkbox, PasswordInput, TextInput } from "@mantine/core";
+import { useAppDispatch } from "common/hooks";
 
 type FormData = {
   email: string;

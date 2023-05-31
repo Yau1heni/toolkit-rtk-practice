@@ -1,7 +1,7 @@
 import { BaseThunkAPI } from "@reduxjs/toolkit/dist/createAsyncThunk";
-import { AppDispatch, RootState } from "app/store/store";
 import { appActions } from "app/store/app-slice";
 import { AxiosError, isAxiosError } from "axios";
+import { AppDispatch, RootState } from "app/store/store";
 
 export const thunkTryCatch = async (
   thunkAPI: BaseThunkAPI<RootState, any, AppDispatch, null>,

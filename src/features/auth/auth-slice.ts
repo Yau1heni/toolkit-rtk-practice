@@ -6,9 +6,8 @@ import {
   ResponseLoginType,
 } from "features/auth/auth-api";
 import { StatusType } from "common/types/types";
-import { createAppAsyncThunk } from "common/utils/pre-typed/createAppAsyncThunk";
-import { thunkTryCatch } from "common/utils/thunk-try-catch/thunk-try-catch";
 import { appActions } from "app/store/app-slice";
+import { createAppAsyncThunk, thunkTryCatch } from "common/utils";
 
 type InitialStateType = {
   profile: null | ResponseLoginType;
