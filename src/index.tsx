@@ -5,27 +5,11 @@ import { store } from "app/store/store";
 import App from "app/App";
 import reportWebVitals from "./reportWebVitals";
 import "./index.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Register } from "features/auth/register/register";
-import { Login } from "features/auth/login/login";
+import { RouterProvider } from "react-router-dom";
 import { MantineProvider } from "@mantine/core";
 import "react-toastify/dist/ReactToastify.css";
-import { GlobalError } from "common/components/global-error/global-error";
-
-export const routes = createBrowserRouter([
-  {
-    path: "/",
-    element: <div>Start</div>,
-  },
-  {
-    path: "/register",
-    element: <Register />,
-  },
-  {
-    path: "/login",
-    element: <Login />,
-  },
-]);
+import { routes } from "app/routes/routes";
+import { GlobalStatus } from "common/components/global-status/global-status";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
@@ -36,7 +20,7 @@ root.render(
       <App />
     </MantineProvider>
     <RouterProvider router={routes} />
-    <GlobalError />
+    <GlobalStatus />
   </Provider>
 );
 

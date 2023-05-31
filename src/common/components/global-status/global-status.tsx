@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { appActions } from "app/store/app-slice";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 
-export const GlobalError = () => {
+export const GlobalStatus = () => {
   const error = useAppSelector((state) => state.app.error);
   const dispatch = useAppDispatch();
 
@@ -21,7 +21,7 @@ export const GlobalError = () => {
 
   return (
     <ToastContainer
-      position="top-right"
+      position="bottom-left"
       autoClose={3000}
       hideProgressBar={false}
       newestOnTop={false}

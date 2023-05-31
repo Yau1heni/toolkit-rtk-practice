@@ -5,7 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { authThunks } from "features/auth/auth-slice";
 import { Link } from "react-router-dom";
 import s from "./register.module.css";
-import { routes } from "common/constans/routes";
+import { routesPath } from "common/constans/routes-path";
 import { Button, PasswordInput, TextInput } from "@mantine/core";
 import { useAppDispatch } from "common/hooks";
 
@@ -56,7 +56,7 @@ export const Register = () => {
       </Button>
       <div className={s.linkContainer}>
         <p>Already have an account?</p>
-        <Link to={routes.LOGIN} className={s.link}>
+        <Link to={routesPath.LOGIN} className={s.link}>
           Sign in
         </Link>
       </div>

@@ -1,37 +1,21 @@
 import s from "./login.module.css";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { loginSchema } from "features/auth/utils/shemes";
-import { SubmitHandler, useForm } from "react-hook-form";
 import { Form } from "common/components/form/form";
-import { routes } from "common/constans/routes";
+import { routesPath } from "common/constans/routes-path";
 import { Link } from "react-router-dom";
-import { authThunks } from "features/auth/auth-slice";
-import { useState } from "react";
 import { Button, Checkbox, PasswordInput, TextInput } from "@mantine/core";
-import { useAppDispatch } from "common/hooks";
-
-type FormData = {
-  email: string;
-  password: string;
-};
+import { useLoginForm } from "features/auth/hooks/useLoginForm";
 
 export const Login = () => {
-  const dispatch = useAppDispatch();
-  const [checked, setChecked] = useState(false);
-
   const {
     handleSubmit,
+    onFormSubmit,
+    handleChangeCheckbox,
+    checked,
     register,
-    formState: { errors, isDirty, isValid },
-  } = useForm<FormData>({ mode: "onTouched", resolver: yupResolver(loginSchema) });
-
-  const onFormSubmit: SubmitHandler<FormData> = ({ email, password }) => {
-    dispatch(authThunks.login({ email, password, rememberMe: checked }));
-  };
-
-  const handleChangeCheckbox = () => {
-    setChecked(!checked);
-  };
+    errors,
+    isDirty,
+    isValid,
+  } = useLoginForm();
 
   return (
     <Form title={"Sign in"} onSubmit={handleSubmit(onFormSubmit)}>
@@ -57,7 +41,7 @@ export const Login = () => {
             onChange={handleChangeCheckbox}
             label="Remember me"
           />
-          <Link to={routes.FORGOT_PASSWORD} className={s.link}>
+          <Link to={routesPath.FORGOT_PASSWORD} className={s.link}>
             Forgot password?
           </Link>
         </div>
@@ -67,7 +51,7 @@ export const Login = () => {
       </Button>
       <div className={s.linkContainer}>
         <p>Don't have an account??</p>
-        <Link to={routes.REGISTER} className={s.link}>
+        <Link to={routesPath.REGISTER} className={s.link}>
           Registration
         </Link>
       </div>

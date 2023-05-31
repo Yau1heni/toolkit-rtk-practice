@@ -6,7 +6,6 @@ import {
   ResponseLoginType,
 } from "features/auth/auth-api";
 import { StatusType } from "common/types/types";
-import { appActions } from "app/store/app-slice";
 import { createAppAsyncThunk, thunkTryCatch } from "common/utils";
 
 type InitialStateType = {
@@ -23,11 +22,6 @@ const slice = createSlice({
   name: "auth",
   initialState,
   reducers: {},
-  extraReducers: (builder) => {
-    builder.addCase(login.pending, (state) => {
-      state.status = "loading";
-    });
-  },
 });
 
 const register = createAppAsyncThunk<void, RegisterPayloadType>(
@@ -42,11 +36,14 @@ const register = createAppAsyncThunk<void, RegisterPayloadType>(
 const login = createAppAsyncThunk<{ profile: ResponseLoginType }, LoginPayloadType>(
   "auth/login",
   async (payload, thunkAPI) => {
-    return thunkTryCatch(thunkAPI, async () => {
-      const res = await authAPI.login(payload);
-      thunkAPI.dispatch(appActions.setIsLoading({ isLoading: false }));
-      return { profile: res.data };
-    });
+    return thunkTryCatch(
+      thunkAPI,
+      async () => {
+        const res = await authAPI.login(payload);
+        return { profile: res.data };
+      },
+      false //deleting a global error to eliminate duplication of the error
+    );
   }
 );
 
