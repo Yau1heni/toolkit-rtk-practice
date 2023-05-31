@@ -8,6 +8,7 @@ import {
 import { StatusType } from "common/types/types";
 import { createAppAsyncThunk } from "common/utils/pre-typed/createAppAsyncThunk";
 import { thunkTryCatch } from "common/utils/thunk-try-catch/thunk-try-catch";
+import { appActions } from "app/store/app-slice";
 
 type InitialStateType = {
   profile: null | ResponseLoginType;
@@ -52,6 +53,7 @@ const login = createAppAsyncThunk<{ profile: ResponseLoginType }, LoginPayloadTy
   async (payload, thunkAPI) => {
     return thunkTryCatch(thunkAPI, async () => {
       const res = await authAPI.login(payload);
+      thunkAPI.dispatch(appActions.setIsLoading({ isLoading: false }));
       return { profile: res.data };
     });
   }

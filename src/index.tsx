@@ -32,10 +32,10 @@ const root = createRoot(container);
 
 root.render(
   <Provider store={store}>
-    <RouterProvider router={routes} />
     <MantineProvider withGlobalStyles withNormalizeCSS>
       <App />
     </MantineProvider>
+    <RouterProvider router={routes} />
     <GlobalError />
   </Provider>
 );
