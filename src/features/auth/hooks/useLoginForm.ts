@@ -29,7 +29,7 @@ export const useLoginForm = () => {
       .unwrap()
       .then(() => {
         toast.success("you have successfully logged on");
-        navigate(routesPath.PROFILE);
+        navigate(routesPath.PACKS);
       })
       .catch((err) => {
         toast.error(err.e.response.data.error);

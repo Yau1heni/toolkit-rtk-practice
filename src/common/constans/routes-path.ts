@@ -3,4 +3,5 @@ export const routesPath = {
   LOGIN: "/login",
   FORGOT_PASSWORD: "/forgotPassword",
   PROFILE: "/profile",
+  PACKS: "/packs",
 };
