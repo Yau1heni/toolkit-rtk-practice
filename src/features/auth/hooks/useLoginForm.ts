@@ -1,4 +1,3 @@
-import { useAppDispatch } from "common/hooks";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -7,6 +6,7 @@ import { loginSchema } from "features/auth/utils/shemes";
 import { authThunks } from "features/auth/auth-slice";
 import { toast } from "react-toastify";
 import { routesPath } from "common/constans/routes-path";
+import { useActions } from "common/hooks";
 
 type FormData = {
   email: string;
@@ -14,7 +14,7 @@ type FormData = {
 };
 
 export const useLoginForm = () => {
-  const dispatch = useAppDispatch();
+  const { login } = useActions(authThunks);
   const navigate = useNavigate();
   const [checked, setChecked] = useState(false);
 
@@ -25,7 +25,7 @@ export const useLoginForm = () => {
   } = useForm<FormData>({ mode: "onTouched", resolver: yupResolver(loginSchema) });
 
   const onFormSubmit: SubmitHandler<FormData> = ({ email, password }) => {
-    dispatch(authThunks.login({ email, password, rememberMe: checked }))
+    login({ email, password, rememberMe: checked })
       .unwrap()
       .then(() => {
         toast.success("you have successfully logged on");

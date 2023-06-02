@@ -1,32 +1,31 @@
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "common/hooks";
+import { useActions, useAppSelector } from "common/hooks";
 import s from "./packs.module.css";
 import { packsThunks } from "features/packs/packs-slice";
 import { PackType } from "features/packs/packs-api";
 
 export const Packs = () => {
+  const { fetchPacks, removePack, createPack, updatePack } = useActions(packsThunks);
   const cardPacks = useAppSelector((state) => state.packs.cardPacks);
 
-  const dispatch = useAppDispatch();
-
   useEffect(() => {
-    dispatch(packsThunks.fetchPacks());
+    fetchPacks();
   }, []);
 
   const addPackHandler = () => {
     const newPack = {
       name: "🦁" + Math.random(),
     };
-    dispatch(packsThunks.createPack(newPack));
+    createPack(newPack);
   };
 
   const removePackHandler = (id: string) => {
-    dispatch(packsThunks.removePack(id));
+    removePack(id);
   };
 
   const updatePackHandler = (pack: PackType) => {
     const newName = "🦖" + Math.random();
-    dispatch(packsThunks.updatePack({ ...pack, name: newName }));
+    updatePack({ ...pack, name: newName });
   };
 
   return (

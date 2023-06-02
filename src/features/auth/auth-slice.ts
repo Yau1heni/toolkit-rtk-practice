@@ -24,7 +24,7 @@ const slice = createSlice({
   reducers: {},
 });
 
-const register = createAppAsyncThunk<void, RegisterPayloadType>(
+const registration = createAppAsyncThunk<void, RegisterPayloadType>(
   "auth/register",
   async (payload, thunkAPI) => {
     return thunkTryCatch(thunkAPI, async () => {
@@ -48,4 +48,4 @@ const login = createAppAsyncThunk<{ profile: ResponseLoginType }, LoginPayloadTy
 );
 
 export const authReducer = slice.reducer;
-export const authThunks = { register, login };
+export const authThunks = { registration, login };

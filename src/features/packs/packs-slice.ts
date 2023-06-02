@@ -17,32 +17,38 @@ const fetchPacks = createAppAsyncThunk<{ packsPage: FetchPacksResponseType }, vo
   }
 );
 
-const createPack = createAppAsyncThunk<void, ArgCreatePackType>(
+const createPack = createAppAsyncThunk<{ pack: PackType }, ArgCreatePackType>(
   "packs/createPack",
   async (arg, thunkAPI) => {
-    const { dispatch } = thunkAPI;
+    //const { dispatch } = thunkAPI;
     return thunkTryCatch(thunkAPI, async () => {
-      await packsApi.createPack(arg);
-      dispatch(fetchPacks());
+      const res = await packsApi.createPack(arg);
+      return { pack: res.data.newCardsPack };
+      //dispatch(fetchPacks());
     });
   }
 );
 
-const removePack = createAppAsyncThunk<void, string>("packs/removePack", async (id, thunkAPI) => {
-  const { dispatch } = thunkAPI;
-  return thunkTryCatch(thunkAPI, async () => {
-    await packsApi.removePack(id);
-    dispatch(fetchPacks());
-  });
-});
+const removePack = createAppAsyncThunk<{ packId: string }, string>(
+  "packs/removePack",
+  async (id, thunkAPI) => {
+    //const { dispatch } = thunkAPI;
+    return thunkTryCatch(thunkAPI, async () => {
+      const res = await packsApi.removePack(id);
+      return { packId: res.data.deletedCardsPack._id };
+      //(fetchPacks());
+    });
+  }
+);
 
-const updatePack = createAppAsyncThunk<void, PackType>(
+const updatePack = createAppAsyncThunk<{ pack: PackType }, PackType>(
   "packs/updatePack",
   async (arg, thunkAPI) => {
-    const { dispatch } = thunkAPI;
+    //const { dispatch } = thunkAPI;
     return thunkTryCatch(thunkAPI, async () => {
-      await packsApi.updatePack(arg);
-      dispatch(fetchPacks());
+      const res = await packsApi.updatePack(arg);
+      return { pack: res.data.updatedCardsPack };
+      //dispatch(fetchPacks());
     });
   }
 );
@@ -59,15 +65,27 @@ const slice = createSlice({
   },
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchPacks.fulfilled, (state, action) => {
-      const packsPage = action.payload.packsPage;
-      state.cardPacks = packsPage.cardPacks;
-      state.page = packsPage.page;
-      state.pageCount = packsPage.pageCount;
-      state.cardPacksTotalCount = packsPage.cardPacksTotalCount;
-      state.minCardsCount = packsPage.minCardsCount;
-      state.maxCardsCount = packsPage.maxCardsCount;
-    });
+    builder
+      .addCase(fetchPacks.fulfilled, (state, action) => {
+        const packsPage = action.payload.packsPage;
+        state.cardPacks = packsPage.cardPacks;
+        state.page = packsPage.page;
+        state.pageCount = packsPage.pageCount;
+        state.cardPacksTotalCount = packsPage.cardPacksTotalCount;
+        state.minCardsCount = packsPage.minCardsCount;
+        state.maxCardsCount = packsPage.maxCardsCount;
+      })
+      .addCase(createPack.fulfilled, (state, action) => {
+        state.cardPacks.unshift(action.payload.pack);
+      })
+      .addCase(removePack.fulfilled, (state, action) => {
+        const index = state.cardPacks.findIndex((pack) => pack._id === action.payload.packId);
+        if (index !== -1) state.cardPacks.splice(index, 1);
+      })
+      .addCase(updatePack.fulfilled, (state, action) => {
+        const index = state.cardPacks.findIndex((pack) => pack._id === action.payload.pack._id);
+        if (index !== -1) state.cardPacks[index] = action.payload.pack;
+      });
   },
 });
 

@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import s from "./register.module.css";
 import { routesPath } from "common/constans/routes-path";
 import { Button, PasswordInput, TextInput } from "@mantine/core";
-import { useAppDispatch } from "common/hooks";
+import { useActions } from "common/hooks";
 
 type FormData = {
   email: string;
@@ -16,7 +16,7 @@ type FormData = {
 };
 
 export const Register = () => {
-  const dispatch = useAppDispatch();
+  const { registration } = useActions(authThunks);
 
   const {
     handleSubmit,
@@ -26,7 +26,7 @@ export const Register = () => {
 
   const onFormSubmit: SubmitHandler<FormData> = (data) => {
     const { email, password } = data;
-    dispatch(authThunks.register({ email, password }));
+    registration({ email, password });
   };
 
   return (
