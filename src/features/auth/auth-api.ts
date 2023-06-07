@@ -4,14 +4,17 @@ export const authAPI = {
   register(payload: RegisterPayloadType) {
     return instance.post<ResponseRegisterType>("auth/register", payload);
   },
-  login(payload: LoginPayloadType) {
+  login(payload: ProfilePayloadType) {
     return instance.post<ResponseLoginType>("auth/login", payload);
+  },
+  me() {
+    return instance.post<ResponseLoginType>("auth/me", {});
   },
 };
 
-export type RegisterPayloadType = Omit<LoginPayloadType, "rememberMe">;
+export type RegisterPayloadType = Omit<ProfilePayloadType, "rememberMe">;
 
-export type LoginPayloadType = {
+export type ProfilePayloadType = {
   email: string;
   password: string;
   rememberMe: boolean;
@@ -29,7 +32,7 @@ export type ResponseLoginType = {
   updated: string;
   __v: number;
   token: string;
-  tokenDeathTime: string;
+  tokenDeathTime: number;
 };
 
 export type ResponseRegisterType = {
