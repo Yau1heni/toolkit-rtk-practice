@@ -10,9 +10,11 @@ import {
 const fetchPacks = createAppAsyncThunk<{ packsPage: FetchPacksResponseType }, void>(
   "packs/fetchPacks",
   async (_, thunkAPI) => {
+    //const { dispatch } = thunkAPI;
     return thunkTryCatch(thunkAPI, async () => {
       const res = await packsApi.getPacks();
       return { packsPage: res.data };
+      //dispatch(fetchPacks());
     });
   }
 );
@@ -36,7 +38,7 @@ const removePack = createAppAsyncThunk<{ packId: string }, string>(
     return thunkTryCatch(thunkAPI, async () => {
       const res = await packsApi.removePack(id);
       return { packId: res.data.deletedCardsPack._id };
-      //(fetchPacks());
+      //dispatch(fetchPacks());
     });
   }
 );

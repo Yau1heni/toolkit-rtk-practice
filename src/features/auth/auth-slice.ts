@@ -1,27 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {
-  authAPI,
-  LoginPayloadType,
-  RegisterPayloadType,
-  ResponseLoginType,
-} from "features/auth/auth-api";
-import { StatusType } from "common/types/types";
+import { authAPI, ProfilePayloadType, RegisterPayloadType } from "features/auth/auth-api";
 import { createAppAsyncThunk, thunkTryCatch } from "common/utils";
+import { appActions } from "app/store/app-slice";
 
 type InitialStateType = {
-  profile: null | ResponseLoginType;
-  status: StatusType;
+  isLoggedIn: boolean;
 };
 
 const initialState: InitialStateType = {
-  profile: null,
-  status: "idle",
+  isLoggedIn: false,
 };
 
 const slice = createSlice({
   name: "auth",
   initialState,
   reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(login.fulfilled, (state, action) => {
+      state.isLoggedIn = action.payload.isLoggedIn;
+    });
+  },
 });
 
 const registration = createAppAsyncThunk<void, RegisterPayloadType>(
@@ -33,14 +31,15 @@ const registration = createAppAsyncThunk<void, RegisterPayloadType>(
   }
 );
 
-const login = createAppAsyncThunk<{ profile: ResponseLoginType }, LoginPayloadType>(
+const login = createAppAsyncThunk<{ isLoggedIn: boolean }, ProfilePayloadType>(
   "auth/login",
   async (payload, thunkAPI) => {
     return thunkTryCatch(
       thunkAPI,
       async () => {
-        const res = await authAPI.login(payload);
-        return { profile: res.data };
+        await authAPI.login(payload);
+        thunkAPI.dispatch(appActions.setAppInitialized({ isInitialized: true }));
+        return { isLoggedIn: true };
       },
       false //deleting a global error to eliminate duplication of the error
     );

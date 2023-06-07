@@ -1,10 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AxiosError, isAxiosError } from "axios";
+import { createAppAsyncThunk, thunkTryCatch } from "common/utils";
+import { authAPI, ResponseLoginType } from "features/auth/auth-api";
 
 const appInitialState = {
   error: null as string | null,
   isLoading: false,
-  isAppInitialized: false,
+  isInitialized: false,
+  profile: null as null | ResponseLoginType,
 };
 
 const slice = createSlice({
@@ -17,9 +20,16 @@ const slice = createSlice({
     setError: (state, action: PayloadAction<{ error: string | null }>) => {
       state.error = action.payload.error;
     },
+    setAppInitialized: (state, action: PayloadAction<{ isInitialized: boolean }>) => {
+      state.isInitialized = action.payload.isInitialized;
+    },
   },
   extraReducers: (builder) => {
     builder
+      .addCase(initialized.fulfilled, (state, action) => {
+        state.profile = action.payload.profile;
+        state.isInitialized = action.payload.isInitialized;
+      })
       .addMatcher(
         (action) => action.type.endsWith("/pending"),
         (state) => {
@@ -48,5 +58,20 @@ const slice = createSlice({
   },
 });
 
+const initialized = createAppAsyncThunk<
+  { profile: ResponseLoginType; isInitialized: boolean },
+  void
+>("app/initialized", async (payload, thunkAPI) => {
+  return thunkTryCatch(
+    thunkAPI,
+    async () => {
+      const res = await authAPI.me();
+      return { profile: res.data, isInitialized: true };
+    },
+    false
+  );
+});
+
 export const appReducer = slice.reducer;
 export const appActions = slice.actions;
+export const appThunk = { initialized };
