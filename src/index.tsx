@@ -19,7 +19,6 @@ root.render(
       <MantineProvider withGlobalStyles withNormalizeCSS>
         <App />
       </MantineProvider>
-      {/*<RouterProvider router={routes} />*/}
       <GlobalStatus />
     </Provider>
   </BrowserRouter>
