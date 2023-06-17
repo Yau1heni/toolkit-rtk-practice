@@ -1,12 +1,15 @@
 import { useEffect } from "react";
 import { useActions, useAppSelector } from "common/hooks";
-import s from "./packs.module.css";
+import s from "features/packs/components/packs/packs.module.css";
 import { packsThunks } from "features/packs/packs-slice";
-import { PackType } from "features/packs/packs-api";
+import { PackType } from "features/packs/service/packs-api";
+import { useNavigate } from "react-router-dom";
 
 export const Packs = () => {
   const { fetchPacks, removePack, createPack, updatePack } = useActions(packsThunks);
   const cardPacks = useAppSelector((state) => state.packs.cardPacks);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchPacks();
@@ -28,6 +31,10 @@ export const Packs = () => {
     updatePack({ ...pack, name: newName });
   };
 
+  const navigateToCardsPageHandler = (packId: string) => {
+    navigate(`/cards/${packId}`);
+  };
+
   return (
     <div>
       <h1>Packs</h1>
@@ -47,6 +54,7 @@ export const Packs = () => {
               </p>
               <button onClick={() => removePackHandler(p._id)}>remove</button>
               <button onClick={() => updatePackHandler(p)}>update</button>
+              <button onClick={() => navigateToCardsPageHandler(p._id)}>cards</button>
             </div>
           );
         })}
