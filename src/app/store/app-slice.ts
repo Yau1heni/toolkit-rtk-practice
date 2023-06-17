@@ -31,7 +31,11 @@ const slice = createSlice({
         state.isInitialized = action.payload.isInitialized;
       })
       .addMatcher(
-        (action) => action.type.endsWith("/pending"),
+        (action) => {
+          if (action.type === "cardsApi/executeQuery/pending") return false;
+          return action.type.endsWith("/pending");
+        },
+
         (state) => {
           state.isLoading = true;
         }
