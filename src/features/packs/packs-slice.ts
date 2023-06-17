@@ -5,7 +5,7 @@ import {
   FetchPacksResponseType,
   packsApi,
   PackType,
-} from "features/packs/packs-api";
+} from "features/packs/service/packs-api";
 
 const fetchPacks = createAppAsyncThunk<{ packsPage: FetchPacksResponseType }, void>(
   "packs/fetchPacks",
